@@ -82,8 +82,22 @@
     const connectUrl = 'ws://cesararellano.ml:8093/mqtt'
     const client = mqtt.connect(connectUrl, options)
 
-    client.on('connect', () => {
-        console.log('Se conectó con éxito:')
+    client.on('connect', () =>
+    {
+      console.log('Se conectó con éxito:')
+
+      client.subscribe('commands',{qos:0}, (error) =>
+      {
+        if(!error)
+          console.log('Suscripción éxitosa')
+        else
+          console.log('Suscripción fallida')
+      })
+        //publish(topic,payload,options/callback)
+      client.publish('fabrica','La temperatura de los ventiladores es : 30°C', (error) =>
+      {
+        console.log(error || 'Mensaje enviado')
+      })
     })
 
     client.on('reconnect', (error) => {
@@ -95,7 +109,7 @@
     })
 
     client.on('message', (topic, message) => {
-      console.log('Recibió un mensaje：', topic, message.toString())
+      console.log('Mensaje recibido bajo el tópico:', topic, 'mensaje ->', message.toString())
     })
   </script>
 </html>
