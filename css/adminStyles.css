@@ -1,0 +1,96 @@
+html
+{
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+body
+{
+  /* Ubicación de la imagen
+  background-image: url('../images/background.png');*/
+
+  /* Para dejar la imagen de fondo centrada, vertical y horizontalmente */
+  background-position: center center;
+
+  /* Para que la imagen de fondo no se repita */
+  background-repeat: no-repeat;
+
+  /* La imagen se fija en la ventana de visualización para que la altura de la imagen no supere a la del contenido */
+  background-attachment: fixed;
+
+  /* La imagen de fondo se reescala automáticamente con el cambio del ancho de ventana del navegador */
+  background-size: cover;
+
+  /* Se muestra un color de fondo mientras se está cargando la imagen de fondo o si hay problemas para cargarla */
+  background-color: #263238;
+}
+
+header, main, footer
+{
+    padding-left: 300px;
+}
+@media only screen and (max-width : 992px)
+{
+    header, main, footer
+    {
+    	padding-left: 0;
+    }
+    .button-collapse
+    {
+      	display: inherit;
+    }
+}
+
+@media only screen and (min-width : 601px)
+{
+     #nav-logo
+     {
+       margin-right: 10px;
+       margin-top: 4px;
+       height: 55px;
+     }
+}
+@media only screen and (max-width: 600px )
+{
+  #nav-logo
+  {
+    display:none;
+  }
+  #naveTitle
+  {
+    display:none;
+  }
+}
+
+
+.input-field .prefix.active
+{
+  color: #0091ea !important;
+}
+.input-field input:focus + label
+{
+  color: #0091ea !important;
+}
+/* label underline focus color */
+.row .input-field input:focus
+{
+  border-bottom: 1px solid #0091ea !important;
+  box-shadow: 0 1px 0 0 #0091ea !important
+}
+.input-field textarea:focus + label
+{
+  color: #0091ea !important;
+}
+
+.row .input-field textarea:focus
+{
+  border-bottom: 1px solid #0091ea;
+  box-shadow: 0 1px 0 0 #0091ea;
+}
+.slider .indicators .indicator-item.active
+{
+  background-color: #0091ea !important;
+}
+
+.dropdown-content li > a, .dropdown-content li > span
+{
+  color: #0091ea !important;
+}
