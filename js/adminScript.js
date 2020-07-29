@@ -147,3 +147,96 @@ function deleteDevice(idDevice)
 		}
 	});
 }
+
+function updateValues(temp1, temp2, volts)
+{
+  $('#displayTemp1').html(temp1);
+  $('#displayTemp2').html(temp2);
+  $('#displayVolt').html(volts);
+}
+function processMsg(topic,message)
+{
+  if(topic == "values")
+  {
+    let msg = message.toString();
+    let sp = msg.split(",");
+    let temp1 = sp[0];
+    let temp2 = sp[1];
+    let volts = sp[2];
+    updateValues(temp1,temp2,volts);
+  }
+}
+function processLed(numLed)
+{
+  let idLed = "#inputLed"+numLed;
+  let topicoLed = "led"+numLed;
+  if($(idLed).is(":checked"))
+  {
+    console.log("Encendido");
+    client.publish(topicoLed,'On', (error) =>
+    {
+      console.log(error || 'Mensaje enviado')
+    })
+  }
+  else
+  {
+    console.log("Apagado");
+    client.publish(topicoLed,'Off', (error) =>
+    {
+      console.log(error || 'Mensaje enviado')
+    })
+
+  }
+}
+// connection option
+const options =
+{
+  clean: true, // Cuando se tienen activas sesiones persistentes, esta instrucción limpia aquella carga del broker
+  connectTimeout: 4000, // Tiempo de respuesta del dispositvo (4 segundos)
+  keepalive: 60, // Señal de vida cada 60 segundos
+  // Authentication information
+  clientId: 'iotmc', // Identificador de clientes
+  username: 'webClient',
+  password: 'Breaktime2018',
+}
+
+// Connect string, and specify the connection method by the protocol
+// ws Unencrypted WebSocket connection
+// wss Encrypted WebSocket connection
+// mqtt Unencrypted TCP connection
+// mqtts Encrypted TCP connection
+// wxs WeChat applet connection
+// alis Alipay applet connection
+const connectUrl = 'wss://cesararellano.ml:8094/mqtt'
+const client = mqtt.connect(connectUrl, options)
+
+client.on('connect', () =>
+{
+  console.log('Se conectó con éxito:')
+
+  client.subscribe('values',{qos:0}, (error) =>
+  {
+    if(!error)
+      console.log('Suscripción éxitosa')
+    else
+      console.log('Suscripción fallida')
+  })
+    //publish(topic,payload,options/callback)
+  client.publish('fabrica','La temperatura de los ventiladores es : 30°C', (error) =>
+  {
+    console.log(error || 'Mensaje enviado')
+  })
+})
+
+client.on('reconnect', (error) => {
+    console.log('Reconectando:', error)
+})
+
+client.on('error', (error) => {
+    console.log('Falló la conexión:', error)
+})
+
+client.on('message', (topic, message) => {
+  console.log('Mensaje recibido bajo el tópico:', topic, 'mensaje ->', message.toString())
+  processMsg(topic,message);
+})

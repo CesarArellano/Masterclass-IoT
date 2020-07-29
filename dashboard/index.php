@@ -17,6 +17,7 @@
   <link type="text/css" rel="stylesheet" href="../css/adminStyles.css"  media="screen,projection"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script><!--Biblioteca de funciones que simplifica el usor de JS-->
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.3.2/sweetalert2.js" charset="utf-8"></script>
   <script type="text/javascript" src="../js/adminScript.js">
@@ -39,15 +40,15 @@
           <ul class="collapsible hoverable" data-collapsible="expandable">
             <li>
               <div class="collapsible-header"><i class="material-icons hoverable circle">filter_drama</i>Temperatura</div>
-              <div class="collapsible-body white"><span class="flow-text">Actual: 12°C</span><br><span>Promedio: 17°C</span></div>
+              <div class="collapsible-body white"><span class="flow-text">Actual:</span><span id="displayTemp1" class="flow-text"> --</span><br><span>Promedio: 17°C</span></div>
             </li>
             <li>
               <div class="collapsible-header"><i class="material-icons hoverable circle">computer</i>Computadora</div>
-              <div class="collapsible-body white"><span class="flow-text">Actual: 40°C</span><br><span>Temp. Pico: 70°C</span></div>
+              <div class="collapsible-body white"><span class="flow-text">Actual:</span><span id="displayTemp2" class="flow-text"> --</span><br><span>Temp. Pico: 70°C</span></div>
             </li>
             <li>
               <div class="collapsible-header"><i class="material-icons hoverable circle">power</i>Voltaje</div>
-              <div class="collapsible-body white"><span class="flow-text">Actual: 5.03V</span><br><span>Tensión Pico: 12V</span></div>
+              <div class="collapsible-body white"><span class="flow-text">Actual:</span><span id="displayVolt" class="flow-text"> --</span><br><span>Tensión Pico: 12V</span></div>
             </li>
           </ul>
         </div>
@@ -58,7 +59,7 @@
             <div class="switch btn-large white">
               <label class="blue-text">
                 Off
-                <input type="checkbox">
+                <input id="inputLed1" type="checkbox" onchange="processLed('1')">
                 <span class="lever"></span>
                 On
               </label>
@@ -72,7 +73,7 @@
             <div class="switch btn-large white">
               <label class="blue-text">
                 Off
-                <input type="checkbox">
+                <input id="inputLed2" type="checkbox" onchange="processLed('2')">
                 <span class="lever"></span>
                 On
               </label>
@@ -86,7 +87,7 @@
             <div class="switch btn-large white">
               <label class="blue-text">
                 Off
-                <input type="checkbox">
+                <input id="inputLed3" type="checkbox" onchange="processLed('3')">
                 <span class="lever"></span>
                 On
               </label>
@@ -132,7 +133,7 @@
 		<li>
 			<div class="user-view">
 				<div class="background">
-			    	<img src="../images/background.png" class="responsive-img">
+          <img src="../images/background.png" class="responsive-img">
 				</div>
 				<a><img src="../images/avatar.png" style="width:40%;object-fit:cover; border-radius: 10%;"></a>
 				<a><span class="white-text name"><font size=3>Usuario: <?php echo $_SESSION['firstName'] ?></font></span></a>
